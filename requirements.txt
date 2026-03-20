@@ -1,0 +1,13 @@
+fastapi>=0.111,<1
+uvicorn[standard]>=0.30,<1
+python-dotenv>=1.0,<2
+apify-client>=1.8,<2
+tavily-python>=0.7,<1
+google-genai>=1.0,<2
+pydantic>=2.0,<3
+pydantic-settings>=2.0,<3
+loguru>=0.7,<1
+httpx>=0.27,<1
+openai>=1.0,<2
+pytest>=8.0,<9
+pytest-asyncio>=0.23,<1
