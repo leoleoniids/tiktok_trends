@@ -27,6 +27,8 @@ Sistēma nesen piedzīvoja pilnu pāreju no agrīna Streamlit prototipa uz moder
 
 ## 🚀 Kā palaist projektu
 
+Piezīme: repozitorijā nav atsevišķas `api/` mapes. Backend entrypoint ir fails `api.py`, savukārt HTTP endpointi ir pieejami zem URL prefiksa `/api/...`.
+
 Visērtākais veids ir izmantot pievienoto `docker-compose.yml` konfigurāciju:
 
 ```bash
@@ -53,7 +55,7 @@ docker-compose up --build
 
 ## 📂 Projekta struktūra
 
-- `api.py` – FastAPI aplikācijas pamats un maršrutēšana.
+- `api.py` – FastAPI aplikācijas pamats un maršrutēšana. Tas nav direktorijs `api/`, bet viens backend entrypoint fails.
 - `main.py` – Orķestratora `PTACSentinel` klase.
 - `src/` – Biznesa loģika un API servisi:
   - `config.py` – `.env` vides mainīgo un konfigurāciju pārvaldība (Pydantic Settings).
@@ -65,7 +67,12 @@ docker-compose up --build
 ---
 ## 🔑 API Atslēgas un vides mainīgie
 
-Visas atslēgas ir jāiestata `.env` failā projekta saknē:
+Visas atslēgas ir jāiestata `.env` failā projekta saknē. Ērtākais veids ir nokopēt `.env.example` uz `.env` un aizpildīt vērtības:
+
+```bash
+cp .env.example .env
+```
+
 * `APIFY_API_KEY` (Obligāts) - TikTok datu iegūšanai.
 * `TAVILY_API_KEY` (Obligāts) - Primārais rīks Latvijas e-komercijas veikalu meklēšanai.
 * `GEMINI_API_KEY` (Obligāts) - E-veikalu satura drošības auditam (Google Gemini).

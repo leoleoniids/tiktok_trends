@@ -222,3 +222,29 @@ Return exactly one JSON array with 5 objects.
     # ------------------------------------------------------------------
     # Risk Scoring
     # ------------------------------------------------------------------
+
+    def _calculate_risk(self, audit_result) -> int:
+        """
+        Calculate a simple deterministic risk score from audit findings.
+
+        Missing compliance signals increase risk. Presence of an age restriction
+        lowers risk slightly because it indicates at least some safety labeling.
+        """
+        score = 0
+
+        if not audit_result.ce_mark:
+            score += 35
+        if not audit_result.manufacturer_info:
+            score += 25
+        if not audit_result.lv_language:
+            score += 25
+        if not audit_result.age_restriction:
+            score += 15
+        else:
+            score -= 5
+
+        return max(0, min(100, score))
+
+    # ------------------------------------------------------------------
+    # Risk Scoring
+    # ------------------------------------------------------------------
