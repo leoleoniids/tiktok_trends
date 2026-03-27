@@ -1,4 +1,9 @@
-const BASE = '/api'
+function normalizeBaseUrl(value) {
+  if (!value) return '/api'
+  return value.endsWith('/') ? value.slice(0, -1) : value
+}
+
+const BASE = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL)
 
 async function post(path, body) {
   const res = await fetch(`${BASE}${path}`, {

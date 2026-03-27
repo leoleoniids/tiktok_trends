@@ -36,6 +36,7 @@ docker-compose up --build
 ```
 - Frontend būs pieejams `http://localhost` (vai attiecīgajā portā, kas norādīts 80).
 - Backend API atradīsies uz `http://localhost:8000`.
+- Svarīgi: Docker vidē frontend nginx automātiski proxyo visus `http://localhost/api/...` pieprasījumus uz backend servisu `http://backend:8000`, tāpēc UI un API strādā zem viena hosta.
 
 ### Lokāla palaišana izstrādei (Development mode)
 
@@ -47,11 +48,19 @@ docker-compose up --build
    uvicorn api:app --reload --port 8000
    ```
 2. **Frontend:**
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
+    ```bash
+    cd frontend
+    cp .env.example .env
+    npm install
+    npm run dev
+    ```
+
+Frontend izmanto `VITE_API_BASE_URL`:
+
+- Ja `VITE_API_BASE_URL=/api`, tad development režīmā šo ceļu proxyo `Vite`, bet Docker/production režīmā to proxyo `frontend/nginx.conf`.
+- Ja frontend tiek darbināts atsevišķi no backend bez Vite proxy vai bez Docker nginx proxy, iestati, piemēram, `VITE_API_BASE_URL=http://localhost:8000/api`.
+
+Ja šī konfigurācija nav pareiza konkrētajai videi, tad `POST /api/...` vai citi API pieprasījumi atgriezīs `404 Not Found` vai CORS kļūdas.
 
 ## 📂 Projekta struktūra
 
